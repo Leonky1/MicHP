@@ -1,10 +1,10 @@
 # MicHP — Android app (Checkpoint 3)
 
-> **Honest status:** this Kotlin code has **never been compiled or run**.
-> The sandbox it was written in has no Android SDK and cannot download dependencies.
-> There may be 1–3 small compile errors (imports, API versions). Send the error messages from
-> Android Studio and they will be fixed. [Medium confidence] the logic is right because it follows
-> the protocol that is already tested on the PC side; the UI and audio need a test on a real phone.
+> **Status:** this code has been compiled in Android Studio and tested on a real phone by the author.
+> It has been tried on one phone only, so tell us if it misbehaves on yours.
+>
+> **Just want to use the app?** You do not need Android Studio: download `MicHP.apk` from the
+> GitHub Releases page. The steps below are for building it yourself.
 
 ## How to install (about 10 minutes)
 

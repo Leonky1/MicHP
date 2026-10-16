@@ -5,18 +5,19 @@
    - If VB-Cable is **already there**, it is skipped and not installed again.
    - If it is **not there**, the installer shows a short explanation, then you click **Install**: MicHP is installed, VB-Cable is downloaded from vb-audio.com (needs internet for a moment), Windows asks for Administrator permission and "Install this device software?" → choose **Install**, then **restart the PC** at the end.
    - If it fails or is skipped, MicHP is still installed; install it manually from vb-audio.com/Cable (right-click `VBCABLE_Setup_x64.exe` → Run as administrator) and restart.
-2. **Turn it into an app** (needs Python 3.10+ only to build the installer, tick "Add python.exe to PATH"):
-   extract the zip, go into the `pc` folder, double-click **`build.bat`**.
-   - If **Inno Setup 6 or 7** (free, jrsoftware.org) is installed: the result is `pc\installer\MicHP-Setup.exe`. Double-click it, install, then open **MicHP** from the Start Menu / Desktop. After that Python is no longer needed.
-   - If not: the app is still built at `pc\dist\MicHP\MicHP.exe` (usable right away; do not move only part of the folder).
+2. **Install MicHP**: download **`MicHP-Setup.exe`** from the GitHub Releases page, double-click it and install, then open **MicHP** from the Start Menu / Desktop. Python is not needed.
+   - *Developers:* to build the installer yourself, install Python 3.10+ and Inno Setup 6 or 7 (free, jrsoftware.org), then double-click **`pc/build.bat`**. The result is `pc\installer\MicHP-Setup.exe`. Without Inno Setup the app is still built at `pc\dist\MicHP\MicHP.exe`.
 3. Open **MicHP**. The app opens its own window (it uses WebView2, included in Windows 11 and up-to-date Windows 10; if it is missing it falls back to an Edge window automatically). Closing the window closes the app.
 4. When Windows Firewall asks, **allow it on Private networks**. If you missed it, see Troubleshooting.
 
 (The old way without the installer still works: `install.bat`, then `start.bat`.)
 
 ## 2. Set up the phone (one time)
-Follow `android/README.md` (Android Studio → new project → copy the files → Run / Build APK).
-To install the APK without a cable: send the APK to the phone and allow "Install from unknown sources".
+1. On the phone, download **`MicHP.apk`** from the GitHub Releases page and open it.
+2. If Android asks, allow **Install from unknown sources** for your browser or file manager.
+3. Open **MicHP** and allow the **microphone** and **notification** permissions.
+
+(To build the APK yourself, follow `android/README.md`: Android Studio → new project → copy the files → Build APK.)
 
 ## 3. Use it
 1. PC: open MicHP (or `start.bat`). In your app/game/Discord, pick the **CABLE Output** mic.
@@ -60,13 +61,9 @@ MicHP does not create its own microphone device in Windows (that needs a special
 | You hear yourself even with "Hear yourself" off, or doubled | (a) the Output box in MicHP is not CABLE Input, (b) in Windows → Sound → Recording → CABLE Output → Properties → Listen tab, "Listen to this device" is ticked, or (c) your Windows default speaker is CABLE Input | (a) pick CABLE Input in Output (MicHP now warns you); (b) untick it; (c) change the Windows default output device to your real speakers/headphones |
 | There is an echo | "Hear yourself" is on without a headset | Turn it off or use a headset |
 
-## 6. Known limitations
-- Home LAN only, no encryption (anyone on the same WiFi can send hello; the PC still needs a click on Connect).
-- Raw PCM audio, about 770 kbps, no compression.
-- One active phone at a time.
-- The phone's timer (start on switch-on, freeze on switch-off) has not been tested on a real device (Compose has not been compiled).
-- The window position and size are remembered (`%LOCALAPPDATA%\\MicHP\\window.json`); on screens with 125–150% scaling this is untested.
-- Latency is about 60–150 ms; not measured on real devices yet.
-- The installer's automatic VB-Cable install (detection, download, Administrator permission) has **never been run on Windows**; the new icon (small sizes in the taskbar/title bar) has also not been seen on Windows.
-- The installer/`build.bat` has **never been run on Windows** (I only tested the PyInstaller build on Linux: the UI files are bundled and the server runs). The standalone window (pywebview/WebView2), the Edge window fallback, and the close button are also untested on Windows.
-- **Not tested on real devices:** the Android app (never compiled), broadcast on your home router, VB-Cable, the Edge window. Only the PC side is tested automatically (63 tests, loopback).
+## 6. Good to know
+- **Tested:** the Android app on a real phone, the Windows installer including the automatic VB-Cable install, sound in other apps through CABLE Output, adjustable mic volume, a screen scaling of 125% or more, and the phone's screen being off. The sound is clear with almost no noticeable delay. All of this was tested on the author's own setup, so other routers, phones and Windows versions may behave differently.
+- **Clear sound, low delay:** audio is sent uncompressed (about 770 kbps), which is small for home WiFi and keeps the sound clean.
+- **One phone at a time:** connect the phone you want to use; to switch phones, connect the other one.
+- **Home WiFi only, not encrypted:** use it on a network you trust. Anyone on the same WiFi can make their phone show up, but nothing is used until you click **Connect** on the PC.
+- If the standalone window cannot open (WebView2 missing), MicHP falls back to an Edge window automatically; that fallback has not been tried on a real PC.

@@ -9,9 +9,11 @@
   No internet, no account, no cables.
 </p>
 
-> **Status: early beta.** The PC side is covered by automated tests, but it has **not yet been tested on real
-> hardware** (Windows install, VB-Cable, real router) and the Android app has **never been compiled**.
-> See [Known limitations](#known-limitations). Bug reports are very welcome!
+> **Status: beta.** Tested end to end by the author: the Android app on a real phone, the Windows
+> installer (including the automatic VB-Cable install), and sound in other apps through **CABLE Output**.
+> The sound is clear with almost no noticeable delay, and the mic volume can be adjusted.
+> It was tested on one setup, so your router, phone or Windows version may behave differently.
+> Bug reports are very welcome!
 
 ## What it does
 
@@ -33,9 +35,11 @@ lets you choose a microphone.
 
 ## Install the phone app (Android)
 
-> The ready-made APK is not available yet. For now, build it with Android Studio:
-> follow **[android/README.md](android/README.md)** (about 10 minutes).
-> Once an APK is attached to a Release, you will be able to just download and install it.
+1. On your phone, open the **[Releases page](../../releases/latest)** and download **`MicHP.apk`**.
+2. Open the file. If Android asks, allow **Install from unknown sources** for your browser or file manager.
+3. Open **MicHP** and allow the **microphone** and **notification** permissions.
+
+Prefer to build it yourself? See **[android/README.md](android/README.md)**.
 
 ## How to use
 
@@ -48,14 +52,16 @@ Both devices must be on the **same WiFi network** (not a guest network, VPN off)
 
 More detail, a first-test checklist and troubleshooting: **[GUIDE.md](GUIDE.md)**.
 
-## Known limitations
+## Good to know
 
-- Home network only. The audio is **not encrypted**; anyone on the same WiFi could try to connect
-  (you still have to click **Connect** on the PC).
-- Raw audio, about 770 kbps. One phone at a time.
-- **Not yet tested on real devices:** the Android app (never compiled), the Windows installer and automatic
-  VB-Cable install, broadcast on a real router, latency (expected 60–150 ms).
-- Windows and Android only.
+- **Clear sound, low delay.** Audio is sent uncompressed (about 770 kbps), which is tiny for home WiFi and is
+  why it sounds clean and stays in sync.
+- **One phone at a time.** Connect the phone you want to use; to switch phones, connect the other one.
+- **Home WiFi only.** Your phone and PC must be on the same network. The audio is not encrypted, so use it on
+  a network you trust. You always have to click **Connect** on the PC first.
+- **Windows and Android only** for now.
+- Some routers have *AP isolation* (client isolation) turned on, which stops the phone from finding the PC.
+  If that happens, see [GUIDE.md](GUIDE.md#5-troubleshooting).
 
 ## For developers
 

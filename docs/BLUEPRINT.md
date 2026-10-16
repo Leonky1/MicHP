@@ -2,8 +2,9 @@
 
 > Document version: 1.2 · Written from the code that is in this repo (not an empty plan).
 > **Verification status:** the PC side is tested automatically (63 tests: UDP loopback + fake audio + headless Chromium + asset/installer checks).
-> The Android app, the Windows installer (including the automatic VB-Cable install), the pywebview/WebView2 window,
-> VB-Cable, and broadcast on a real router have **never been run**. Parts that are not proven are marked ⚠️.
+> The author also verified the whole system on real devices: the Android app, the Windows installer (including the automatic VB-Cable install),
+> sound in other apps through VB-Cable, volume control, 125%+ screen scaling and the phone's screen being off.
+> Parts that are still not proven are marked ⚠️ (other routers, other phones, the Edge fallback window, measured latency).
 
 ## 1. System Overview & Goals
 
@@ -301,24 +302,25 @@ JitterBuffer.pop(n):
 | Output chosen is not "CABLE" | The UI warns: the sound does not reach the Discord mic |
 | UDP/UI port already in use | If the old UI is still alive → show its window; otherwise → an error message box |
 | Window position saved on a monitor that was unplugged | Ignored, the window opens at the default position |
-| WebView2 missing | Falls back to an Edge/Chrome `--app` window ⚠️ |
+| WebView2 missing | Falls back to an Edge/Chrome `--app` window ⚠️ (fallback not tried on a real PC) |
 | Connection drops before any audio arrived | The PC timer never started, so there is nothing to freeze (no frozen time is shown) |
 | PC user clicks Disconnect | The PC timer is cleared (not frozen): it was a deliberate action |
 | The phone's mic is switched off while Connecting | The phone timer freezes at how long it had been running |
 | The PC reconnects after a drop | The frozen time is cleared and a new session counts from 00:00:00 |
-| VB-Cable already installed | The info page is skipped; no re-download/re-install; the installer summary says "already installed" ⚠️ |
-| VB-Cable not installed | Info page → Install → MicHP installed → download → ask for Administrator → install → the installer asks for a restart ⚠️ |
-| VB-Cable download/extract/install fails or UAC is refused | MicHP is still installed; a message box shows the manual steps; the MicHP UI shows the yellow warning "Virtual mic (VB-Cable) not found" ⚠️ |
+| VB-Cable already installed | The info page is skipped; no re-download/re-install; the installer summary says "already installed" |
+| VB-Cable not installed | Info page → Install → MicHP installed → download → ask for Administrator → install → the installer asks for a restart |
+| VB-Cable download/extract/install fails or UAC is refused | MicHP is still installed; a message box shows the manual steps; the MicHP UI shows the yellow warning "Virtual mic (VB-Cable) not found" |
 
-### 6.6 Risks & things not proven yet ⚠️
+### 6.6 Verified and not yet proven
 
-1. The Android app has never been compiled (no Android SDK in the build environment). This includes the phone timer.
-2. The `hello` broadcast can be blocked by a router with *AP/client isolation*.
-3. PyInstaller bundling of pywebview/pythonnet has not been tried on Windows.
-4. Window position persistence on screens with 125–150% DPI scaling is untested (pywebview has a history of logical/physical size mismatches).
-5. Real latency (estimated 60–150 ms) has not been measured.
-6. The automatic VB-Cable install has never been run on Windows: detection through `Win32_SoundDevice`, the `VBCABLE_Driver_Pack43.zip` URL, the `-i -h` flags, and `DownloadTemporaryFile` without a hash check are unproven. Windows still shows the "Install this device software?" dialog (a system dialog, it cannot be turned off) and needs a restart.
-7. The `.ico` was rebuilt (13 square sizes, simplified glyph at ≤32 px) and only its structure was tested; how it looks in the Windows title bar/taskbar (DPI 100–175%) has not been seen.
+**Verified on real devices by the author:** Android compilation and use on a phone (including the phone timer), the Windows installer, the automatic VB-Cable install, sound reaching other apps through CABLE Output, volume control, 125%+ screen scaling, and the phone's screen being off. Perceived result: clear sound, almost no noticeable delay.
+
+**Not proven yet ⚠️**
+1. Routers with *AP/client isolation* block the `hello` broadcast (expected, documented in the guide); other router models have not been tried.
+2. Other phone brands and Android versions (aggressive battery savers may stop the mic with the screen off).
+3. The Edge/Chrome `--app` fallback when WebView2 is missing.
+4. Latency has not been measured with an instrument (only judged by ear).
+5. `DownloadTemporaryFile` in the installer is used without a hash check (the file always comes from vb-audio.com).
 
 ### 6.7 Virtual mic install in the installer
 

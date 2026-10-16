@@ -7,7 +7,7 @@ Every checkpoint is delivered as a complete zip, so work can continue from the l
 - [x] **CP2** output to the virtual mic (VB-Cable) + hear yourself + web UI design 1,
       Windows launchers (`install.bat`, `start.bat`). 34 tests pass on Linux; UI checked in
       headless Chromium (waiting, found, connected, no JS errors)
-- [x] CP3 Android app (NOT yet compiled/tested)
+- [x] CP3 Android app (compiled and tested on a real phone by the author)
 - [x] CP4 guide (GUIDE.md)
 - [x] **CP6** timers: connected time (PC) and mic-on time (phone). 53 tests pass on Linux
 - [x] **CP5** look revisions: plain background (no gradient/glow/grid lines) on phone and PC; PC logo/icon
@@ -19,15 +19,18 @@ Every checkpoint is delivered as a complete zip, so work can continue from the l
       2. Phone: the timer starts when Turn On Mic is pressed (even while still Connecting) and freezes
          when the mic is switched off.
       3. The whole app, installer, scripts and docs are now in English (the guide file is now GUIDE.md).
-      63 tests pass on Linux (the Android code is still not compiled)
+      63 tests pass on Linux
 
-## Not tested yet (needs real devices)
+## Tested on real devices (by the author)
 
-- Broadcast on your home router
-- Output to a Windows sound card / VB-Cable (tests only use a fake stream)
-- Edge `--app` window on Windows (the fallback is the normal browser)
-- The installer's automatic VB-Cable install (download, UAC, restart)
-- The new icon in the Windows title bar/taskbar (DPI 100-175%)
-- The Turn On Mic button in its new position (Compose not compiled)
-- The new phone timer (start on switch-on, freeze on switch-off) and its English texts
-- The Android app
+- Android app: compiled, installed and used on a real phone (APK)
+- Windows installer (`MicHP-Setup.exe`), including the automatic VB-Cable install
+- Phone found on the home WiFi, Connect works, sound reaches other apps through CABLE Output
+- Clear sound, almost no noticeable delay, adjustable mic volume
+- Screen scaling of 125% or more, and the phone's screen switched off
+
+## Not tested yet
+
+- Other routers (especially ones with AP/client isolation), other phones and Android versions
+- The Edge `--app` fallback window (used only when WebView2 is missing)
+- Latency has not been measured with an instrument (it only feels almost instant)
