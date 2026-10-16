@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MicHP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-state="waiting">
+<div class="app" id="app" data-state="waiting">
+  <header>
+    <div class="brand">
+      <img class="logo" src="logo.svg" alt="" width="36" height="36" draggable="false">
+      <span>MicHP</span>
+    </div>
+    <label class="pill-select">
+      <span class="muted-500">Output</span>
+      <select id="output" aria-label="Choose the virtual mic output"></select>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </label>
+  </header>
+
+  <main>
+    <section class="card left">
+      <div class="s s-waiting">
+        <svg width="132" height="132" viewBox="0 0 200 200" fill="none" role="img" aria-label="Looking for a phone on the WiFi network">
+          <circle cx="100" cy="100" r="96" stroke="rgba(255,255,255,0.10)" stroke-width="3"/>
+          <circle cx="100" cy="100" r="66" stroke="rgba(255,255,255,0.18)" stroke-width="3"/>
+          <circle cx="100" cy="100" r="38" stroke="#2F6BF2" stroke-width="3"/>
+          <rect x="88" y="80" width="24" height="40" rx="6" stroke="#F2F5FF" stroke-width="3"/>
+          <path d="M96 112h8" stroke="#F2F5FF" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <h3>Waiting for phone..</h3>
+        <p class="muted">Open MicHP on your phone and tap Mic Offline. The Connect button shows up here.</p>
+        <div class="uptime last" id="lastWaiting"><span class="muted-500 lastLabel">Connection lost after</span><b class="lastValue">00:00:00</b></div>
+      </div>
+
+      <div class="s s-found">
+        <div class="dev-icon yellow">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2" width="11" height="20" rx="3"/><path d="M11 18.5h2"/></svg>
+        </div>
+        <h3 id="foundName">HP</h3>
+        <div class="chip yellow"><i></i><span>Mic Connecting.. on phone</span></div>
+        <div class="uptime last" id="lastFound"><span class="muted-500 lastLabel">Connection lost after</span><b class="lastValue">00:00:00</b></div>
+        <button id="btnConnect" class="btn primary" type="button">Connect</button>
+        <div id="others" class="others"></div>
+      </div>
+
+      <div class="s s-connected">
+        <div class="dev-icon green">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2" width="11" height="20" rx="3"/><path d="M11 18.5h2"/></svg>
+        </div>
+        <h3 id="connName">HP</h3>
+        <div class="chip green"><i></i><span>Mic Online</span></div>
+        <div class="uptime"><span class="muted-500">Connected</span><b id="uptime">00:00:00</b></div>
+        <button id="btnDisconnect" class="btn ghost" type="button">Disconnect</button>
+      </div>
+    </section>
+
+    <section class="card right">
+      <div class="row between">
+        <h2>Sound Test</h2>
+        <div class="switch-row">
+          <span id="monitorLabel">Hear yourself</span>
+          <button id="monitor" class="switch" type="button" role="switch" aria-checked="false" aria-labelledby="monitorLabel"><span class="knob"></span></button>
+        </div>
+      </div>
+
+      <div class="meter-block">
+        <div class="row between">
+          <span class="label">Sound detected</span>
+          <span id="livePill" class="pill off">Inactive</span>
+        </div>
+        <div id="meter" class="meter" aria-hidden="true"></div>
+      </div>
+
+      <div class="tile">
+        <div class="row between">
+          <label for="gain" class="label">Mic volume</label>
+          <span id="gainVal" class="gain-val">50%</span>
+        </div>
+        <input id="gain" type="range" min="0" max="100" value="50">
+      </div>
+
+      <div class="foot">
+        <div class="hint">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="7" rx="1.5"/><rect x="17" y="14" width="4" height="7" rx="1.5"/></svg>
+          <span id="hintText">Connect your phone first to test the sound.</span>
+        </div>
+        <div id="warn" class="warn" hidden></div>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+name: Release (Windows installer)
+
+# Push a tag like v1.0.0 and this builds MicHP-Setup.exe and attaches it to a GitHub Release.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows-installer:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        working-directory: pc
+        run: python -m pip install -r requirements.txt pyinstaller
+
+      - name: Run tests
+        working-directory: pc
+        run: python -m unittest discover -s tests -t .
+
+      - name: Build MicHP.exe (PyInstaller)
+        working-directory: pc
+        shell: cmd
+        run: >
+          python -m PyInstaller --noconfirm --clean --windowed --name MicHP
+          --icon michp.ico
+          --add-data "michp_pc\static;michp_pc\static" --add-data "michp.ico;."
+          --collect-all sounddevice --collect-all _sounddevice_data
+          --collect-all webview --collect-all clr_loader --collect-all pythonnet
+          michp_app.py
+
+      - name: Install Inno Setup
+        run: choco install innosetup -y --no-progress
+
+      - name: Build installer
+        working-directory: pc
+        shell: pwsh
+        run: |
+          $ver = "${{ github.ref_name }}" -replace '^v',''
+          if (-not $ver -or "${{ github.ref_type }}" -ne "tag") { $ver = "0.0.0-dev" }
+          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" "/DAppVersion=$ver" installer.iss
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MicHP-Setup
+          path: pc/installer/MicHP-Setup.exe
+
+      - name: Publish GitHub Release
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: pc/installer/MicHP-Setup.exe
+          generate_release_notes: true

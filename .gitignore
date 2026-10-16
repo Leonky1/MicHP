@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.venv-build/
+
+# Build output
+pc/build/
+pc/dist/
+pc/installer/
+*.spec
+
+# Android
+android/**/build/
+.gradle/
+local.properties
+*.apk
+*.aab
+*.jks
+*.keystore
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
