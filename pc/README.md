@@ -5,7 +5,6 @@ Turn an Android phone into a microphone for a Windows PC over home WiFi (no inte
 - `PROTOCOL.md` - how the phone and PC talk to each other
 - `GUIDE.md` - user guide (install, use, troubleshooting)
 - `pc/` - PC software (Python + local web UI)
-- `PROGRESS.md` - status per checkpoint
 
 ## PC software (Windows)
 

@@ -63,23 +63,39 @@ More detail, a first-test checklist and troubleshooting: **[GUIDE.md](GUIDE.md)*
 - Some routers have *AP isolation* (client isolation) turned on, which stops the phone from finding the PC.
   If that happens, see [GUIDE.md](GUIDE.md#5-troubleshooting).
 
-## For developers
+## Contributing
+
+Bug reports, ideas and pull requests are welcome. Open an **Issue** to report a problem or suggest something.
+When reporting a bug, please include your Windows version, phone model and Android version, and your router if you know it.
+
+**Run it from source** (Windows or Linux; needs Python 3.10+):
 
 ```
 cd pc
-python -m unittest discover -s tests -t . -v     # 63 tests
+pip install -r requirements.txt
+python -m unittest discover -s tests -t . -v     # 63 tests, must all pass
 python -m michp_pc --no-audio                    # run the UI without audio output
 python -m michp_pc.fake_phone --seconds 10       # fake phone, in another terminal
 ```
 
+**Where things are**
+- `pc/michp_pc/`: the PC app (Python + a small local web UI in `static/`)
+- `android/`: the phone app (Kotlin + Jetpack Compose), see [android/README.md](android/README.md)
 - [PROTOCOL.md](PROTOCOL.md): how the phone and PC talk to each other
-- [docs/BLUEPRINT.md](docs/BLUEPRINT.md): design and architecture
-- [AGENTS.md](AGENTS.md): project rules and conventions
-- [pc/README.md](pc/README.md): running from source on Windows
-- [PROGRESS.md](PROGRESS.md): status per checkpoint
+- [GUIDE.md](GUIDE.md): user guide and troubleshooting
+- `pc/README.md`: running from source on Windows
 
-**Releasing a new Windows installer:** push a tag, e.g. `git tag v1.0.0 && git push origin v1.0.0`.
+**A few ground rules**
+- The protocol is a contract. If you change it, update `PROTOCOL.md`, `pc/michp_pc/protocol.py` and
+  `android/.../net/Protocol.kt` together.
+- Keep the PC side simple: Python standard library plus `sounddevice` and `pywebview`, plain threads and sockets.
+- The local web UI must stay on `127.0.0.1` only, and device names from the network must be shown with `textContent`.
+- User-facing text is plain, friendly English.
+- Add or update a test in `pc/tests/` for every behavior change, and make sure all tests pass.
+
+**Releasing a new Windows installer:** push a tag, e.g. `git tag v1.0.1 && git push origin v1.0.1`.
 The *Release* workflow builds `MicHP-Setup.exe` and attaches it to a GitHub Release automatically.
+Attach `MicHP.apk` to the same release by hand.
 
 ## License
 
