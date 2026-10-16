@@ -24,6 +24,22 @@ lets you choose a microphone.
  Phone mic ──(WiFi, UDP)──▶ MicHP on PC ──▶ virtual mic (VB-Cable) ──▶ Discord / OBS / Zoom
 ```
 
+## Screenshots
+
+**On the PC**
+
+<p align="center">
+  <img src="screenshots/PC_Preview1.png" width="48%" alt="MicHP on PC: waiting for the phone">
+  <img src="screenshots/PC_Preview2.png" width="48%" alt="MicHP on PC: phone connected, mic online">
+</p>
+
+**On the phone**
+
+<p align="center">
+  <img src="screenshots/Hp1.jpg" width="24%" alt="MicHP on the phone: mic offline">
+  <img src="screenshots/HP2.jpg" width="24%" alt="MicHP on the phone: mic online">
+</p>
+
 ## Download and install (Windows)
 
 1. Go to the **[Releases page](../../releases/latest)** and download **`MicHP-Setup.exe`**.
